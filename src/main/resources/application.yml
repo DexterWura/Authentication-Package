@@ -1,0 +1,76 @@
+spring:
+  application:
+    name: authentication-package
+  
+  datasource:
+    url: jdbc:h2:mem:authdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 
+  
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+  
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+auth:
+  jwt:
+    secret: ${JWT_SECRET:your-256-bit-secret-key-change-this-in-production-environment}
+    expiration: ${JWT_EXPIRATION:86400000}
+    refresh-expiration: ${JWT_REFRESH_EXPIRATION:604800000}
+  
+  email:
+    from: ${MAIL_FROM:noreply@example.com}
+    verification-url: ${EMAIL_VERIFICATION_URL:http://localhost:8080/api/auth/verify-email?token=}
+    reset-password-url: ${EMAIL_RESET_URL:http://localhost:8080/api/auth/reset-password?token=}
+  
+  security:
+    public-endpoints: /api/auth/**
+  
+  cors:
+    allowed-origins: ${CORS_ORIGINS:*}
+    allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+    allowed-headers: *
+  
+  email-verification:
+    enabled: ${EMAIL_VERIFICATION_ENABLED:true}
+    expiry-hours: 24
+  
+  password-reset:
+    expiry-hours: 1
+  
+  refresh-token:
+    expiry-days: 7
+  
+  rate-limit:
+    enabled: ${RATE_LIMIT_ENABLED:true}
+    requests-per-minute: ${RATE_LIMIT_REQUESTS:60}
+    login-requests-per-minute: ${RATE_LIMIT_LOGIN:5}
+
+logging:
+  level:
+    com.authpackage: INFO
+    org.springframework.security: WARN
+    org.hibernate: WARN
+
